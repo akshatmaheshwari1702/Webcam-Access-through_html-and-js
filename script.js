@@ -1,29 +1,35 @@
-//Stop button code
-var StopWebCam = function () {
-    var stream = video.srcObject;
-    var tracks = stream.getTracks();
+var capture = document.getElementById("capture");
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext('2d');
+    capture.addEventListener("click", function() {
+      context.drawImage(video, 0,0, 650, 450);
+    })
 
-        for (var i = 0; i<tracks.length; i++) {
-            var track = tracks[i];
-            track.stop();
+
+
+        var StopWebCam = function () {
+            var stream = video.srcObject;
+            var tracks = stream.getTracks();
+
+            for (var i = 0; i < tracks.length; i++) {
+                var track = tracks[i];
+                track.stop();
+            }
+            video.srcObject = null;
+
         }
-        video.srcObject = null;
-}
 
-//Video Start and Access Code
+        var start = function () {
+            var video = document.getElementById("video"),
+                vendorURL = window.URL || window.webkitURL;
 
-var Start = function () {
-    var video = document.getElementById("video"),
-    vendorURL = window.URL || window.webkitURL;
-
-    if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true})
-            .then(function (stream) {
-                video.srcObject = stream;
-            }).catch(function (error){
-                console.log("Something went wrong");
-            });
-    }
-}
-//Start Function
-    $(function () { Start(); });
+            if (navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function (stream) {
+                        video.srcObject = stream;
+                    }).catch(function (error) {
+                        console.log("Something went wrong");
+                    });
+            }
+        }
+        $(function () { start(); });
